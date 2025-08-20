@@ -4,6 +4,15 @@ from matplotlib.colors import Normalize
 import matplotlib.cm as cm
 
 """
+4 [P] Estudiar isotermas de metano con la ecuación de estado de van der Waals.
+
+(a) Grafique 40 isotermas (es decir, curvas de T constante, mostrando P vs v), donde T va de 162 a 210 K, v va de 1.5b a 9b y las curvas se
+ vean suaves.
+
+(b) Si resolvió correctamente la parte anterior, apenas debería poder distinguir las diferentes curvas. Embellezca su gráfico empleando 
+un mapa de colores automático.
+"""
+"""
 Constantes físicas 
 R = J / (mol*K)
 a = (Pa*m^6) / mol^2
@@ -17,10 +26,6 @@ h = 1e-6
 # Ecuación de Van der Waals
 def P_vdw(v, T):
     return R * T / (v - b) - a / (v**2)
-
-# Derivada analítica exacta
-def dP_dv_exact(v, T):
-    return -R * T / ((v - b)**2) + 2*a / (v**3)
 
 # metodo de diferencia central
 def dP_dv_central(v, T, h):
@@ -80,24 +85,6 @@ def graficar_isotermas_aprox(metodo="central"):
     plt.colorbar(sm, ax=ax, label="Temperatura (K)")
 
     plt.show()
-
-def calcular_errores(v, T, h):
-    aprox1 = dP_dv_central(v, T, h)
-    aprox2 = dP_dv_richardson(v, T, h)
-    # Como "verdadero" usamos una h muy pequeña
-    exacta = dP_dv_exact(v, T)
-    error1 = abs((aprox1 - exacta)/exacta) * 100
-    error2 = abs((aprox2 - exacta)/exacta) * 100
-    return aprox1, aprox2, exacta, error1, error2
-
-# ---- Probar errores en un punto ----
-v_test, T_test, h_test = 1.5*b, 210, h
-aprox1, aprox2, exacta, e1, e2 = calcular_errores(v_test, T_test, h_test)
-
-print("Derivada dP/dv en v=2b, T=180K:")
-print(f"Dif. central = {aprox1:.8e}, Error = {e1:.2e}")
-print(f"Richardson   = {aprox2:.8e}, Error = {e2:.2e}")
-print(f"Referencia   = {exacta:.8e}")
 
 # ---- Ejecutar con método deseado ----
 graficar_isotermas_aprox(metodo="central")      # isotermas con diferencia central
