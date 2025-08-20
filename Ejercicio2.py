@@ -3,10 +3,14 @@ import math
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+# Parte A) Calcular el polinomio de Legendre asociado a Bonnet
+"""
+# Calcula Pnm(x) aplicando paso a paso la Ec. (2.125), utilizando las Ecs. (2.126) y (2.127) cuando sea necesario.
+#Usa tu función para graficar 𝑃42(𝑥)P42(x).
+"""
 m = 2    # Orden del polinomio
 n = 4   # Potencia del polinomio
 
-# Parte A) Calcular el polinomio de Legendre asociado a Bonnet
 def doble_factorial(n):
     """
     Calcula el doble factorial de un número entero, si el número es negativo devuelve 1
@@ -92,13 +96,18 @@ def Y(n, m, theta, phi):
         return coef * Polinomio_asociado(n, m, np.cos(theta)) * np.cos(m*phi)
     
 # Parte C) Crear una malla para graficar Y
+"""
+(c) Genera una malla para Theta de 0 a pi y de phi a 2pi. Visualiza ∣𝑌42∣ usando un gráfico polar 3D, lo cual está disponible en Axes3D.plot_surface().
+De manera similar a vectorfield.py, debes usar listas anidadas para producir las cantidades relevantes y finalmente convertirlas a arreglos de NumPy.
+Nuestro problema es tridimensional en coordenadas cartesianas, así que deberás pasar como argumentos las formas convertidas apropiadamente de ∣Y42|
+"""
 
-# Crear malla de theta y phi para hacer la gráfica de Y
+# Se crea malla de theta y phi para hacer la gráfica de Y
 theta = np.linspace(0, np.pi, 150)   
 phi = np.linspace(0, 2*np.pi, 150)   
 theta, phi = np.meshgrid(theta, phi)
 
-# Calcular |Y_nm(theta, phi)|
+# Se calcula |Y_nm(theta, phi)|
 Ynm = np.vectorize(lambda th, ph: Y(n, m, th, ph))(theta, phi)
 R = np.abs(Ynm)  # valor absoluto
 
@@ -107,7 +116,7 @@ X = R * np.sin(theta) * np.cos(phi)
 Yc = R * np.sin(theta) * np.sin(phi)
 Z = R * np.cos(theta)
 
-# Graficar Ynm
+# Se hace la gráfica Ynm
 fig = plt.figure(figsize=(8, 7))
 ax = fig.add_subplot(111, projection='3d')
 surf = ax.plot_surface(X, Yc, Z, cmap="viridis", edgecolor="none")
